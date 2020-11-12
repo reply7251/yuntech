@@ -4,7 +4,8 @@ let tables = new Map();
 let selected;
 //let font;
 
-let width = 400, height = 640;
+//let width = 400, height = 640;
+let width = document.body.offsetWidth, height = document.body.offsetHeight
 
 /*
 function preload() {
@@ -14,15 +15,13 @@ function preload() {
 
 function setup() {
     createCanvas(width,height);
-    canva = lib.getDom('defaultCanvas0');
-    l = lib.createDom('label');
-    document.body.appendChild(l);
+    canva = document.getElementById('defaultCanvas0');
     
     canva.onmousemove = function(e) {
         var rect = canvas.getBoundingClientRect();
         var x = e.clientX - rect.left;
         var y = e.clientY - rect.top;
-        l.innerText = 'X: ' + x + ', Y: ' + y;
+        //l.innerText = 'X: ' + x + ', Y: ' + y;
         mouse = [x,y]
     }
     
@@ -77,23 +76,23 @@ function goTo(str){
 }
 
 tables.set('back', table = new Element());
-table.addTextButton('Home').position(300,600).size(100,40).noFill().noStroke().onclicked(()=>goTo('home'))
+table.addTextButton('Home').position(width*0.75,height*14/16).size(width/4,width/16).noFill().noStroke().onclicked(()=>goTo('home'))
 
 tables.set('home', table = new Element());
-table.add(new Title('今天吃什麼')).position(2,-300).size(64);
-table.addTextButton('開始').stroke(0).strokeWeight(2).position(0,480).size(200,60).fill(254,172,0).onclicked(()=>goTo('start'));
-table.addTextButton('設定').stroke(0).strokeWeight(2).position(200,480).size(200,60).fill(254,172,0).onclicked(b=>console.log(b.text.text())).addText('(未實裝)').position(75,15).size(12).fill(255)
+table.add(new Title('今天吃什麼')).position(0,-height/2).size(height/10);
+table.addTextButton('開始').stroke(0).strokeWeight(2).position(0,height*0.75).size(width/2,60).fill(254,172,0).onclicked(()=>goTo('start'));
+table.addTextButton('設定').stroke(0).strokeWeight(2).position(width/2,height*0.75).size(width/2,60).fill(254,172,0).onclicked(b=>console.log(b.text.text())).addText('(未實裝)').position(75,15).size(12).fill(255)
 
 function build(t){
     if(!t) return;
     let table;
     tables.set(t.self,table = new Element());
     table.shown = false;
-    table.add(new Title('我想來點...')).position(2,-300).size(64);
+    table.add(new Title('我想來點...')).position(0,-height/2).size(height/10);
     
-    table.add(new ColorfulText(t.toString(),i=>i >= t.toString().length-2 ? fill(255) : fill(0))).position(2,-200);
-    table.addTextButton(t.left ? t.left.self : 'IDK').stroke(0).strokeWeight(2).position(0,480).size(200,60).fill(254,172,0).onclicked(x=>goTo(x.text.text())&&(selected = t.left))
-    table.addTextButton(t.right ? t.right.self : 'IDK').stroke(0).strokeWeight(2).position(200,480).size(200,60).fill(254,172,0).onclicked(x=>goTo(x.text.text())&&(selected = t.right))
+    table.add(new ColorfulText(t.toString(),i=>i >= t.toString().length-2 ? fill(255) : fill(0))).position(0,-height*5/16);
+    table.addTextButton(t.left ? t.left.self : 'IDK').stroke(0).strokeWeight(2).position(0,height*0.75).size(width/2,60).fill(254,172,0).onclicked(x=>goTo(x.text.text())&&(selected = t.left))
+    table.addTextButton(t.right ? t.right.self : 'IDK').stroke(0).strokeWeight(2).position(width/2,height*0.75).size(width/2,60).fill(254,172,0).onclicked(x=>goTo(x.text.text())&&(selected = t.right))
     build(t.left);
     build(t.right);
 }
